@@ -37,11 +37,11 @@ function userFlash(btn){
 }
 
 function checkSeq(idx){
-    if((userSeq[idx]) == gameSeq[idx]){
+    if((userSeq[idx]) == gameSeq[idx]){ // CHECKING IF THE COLOR CLICKED BY THE USER MATCHES THE COLOR IN THE GAME SEQUENCE AT THE SAME INDEX, THEN LEVEL UP THE GAME IF THE USER HAS COMPLETED THE SEQUENCE
         if(userSeq.length == gameSeq.length){ 
             setTimeout(levelUp, 1000);
         }
-    }else{
+    }else{ // IF THE COLOR CLICKED BY THE USER DOES NOT MATCH THE COLOR IN THE GAME SEQUENCE AT THE SAME INDEX, THEN GAME OVER
         let score = level - 1;
 
         if(score > highestScore){
@@ -51,24 +51,26 @@ function checkSeq(idx){
 
         h2.innerHTML = `GAME OVER! Your score was <b>${score}</b> <br> Press any key to restart the game.`;
 
+        // FLASHING THE BACKGROUND COLOR TO RED FOR 200MS TO INDICATE THAT THE GAME IS OVER
         body.style.backgroundColor = "red";
         setTimeout(function(){
             body.style.backgroundColor = "white";
         }, 200);
 
+        // ONCE RHE GAME GETS OVER WE NEED TO RESET THE GAME, ELSE THE GAME WILL FREEZE
         reset();
     }
 }
 
 function levelUp(){
-    userSeq = [];
+    userSeq = []; // RESETTING THE USER SEQUENCE FOR THE NEW LEVEL, AS THE USER HAS TO START CLICKING FROM THE FIRST COLOR IN THE SEQUENCE AGAIN
 
     level++ ;
     h2.innerText = `Level ${level}`;
 
     let randNo = Math.floor(Math.random() * 4);
     let randColor = btnColors[randNo];
-    let randBtn = document.querySelector(`.${randColor}`);
+    let randBtn = document.querySelector(`.${randColor}`); // SELECTING THE ELEMENT USING CLASSNAME
 
     gameSeq.push(randColor);
     console.log(gameSeq);
@@ -85,7 +87,7 @@ for(let btn of colorBtns){
             let color = btn.getAttribute("id");
             userSeq.push(color);
 
-            checkSeq(userSeq.length - 1);
+            checkSeq(userSeq.length - 1); // CHECKING THE LAST INDEX OF THE USER SEQUENCE(i.e. CURRENT COLOR CLICKED BY THE USER) TO SEE IF IT MATCHES THE GAME SEQUENCE
         }
     });
 }
